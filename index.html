@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#000000" />
-  <link rel="manifest" href="manifest.json" />
-  <title>TurboRush X</title>
+  <title>TurboRush X v2</title>
   <style>
     body {
       margin: 0;
@@ -50,23 +48,57 @@
       border-radius: 10px;
       display: none;
     }
+    #controls {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 30px;
+      box-sizing: border-box;
+    }
+    .btn {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 69, 0, 0.7);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 60px;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      user-select: none;
+    }
+    #restartBtn {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      background: #ff4500;
+      color: white;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
-  <div id="splash">Loading TurboRush X...</div>
+  <div id="splash">Loading TurboRush X v2...</div>
   <div id="score">Score: 0</div>
   <canvas id="gameCanvas" width="400" height="600"></canvas>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('Service Worker Registered'));
-    }
-
+  <div id="controls">
+    <div class="btn" id="leftBtn">◀</div>
+    <div class="btn" id="rightBtn">▶</div>
+  </div>
+  <button id="restartBtn">Restart</button>  <script>
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const scoreElement = document.getElementById('score');
     const splash = document.getElementById('splash');
+    const restartBtn = document.getElementById('restartBtn');
 
     setTimeout(() => {
       splash.style.display = 'none';
@@ -147,15 +179,30 @@
         ctx.fillStyle = 'white';
         ctx.font = '30px Arial';
         ctx.fillText('GAME OVER', 100, 300);
+        restartBtn.style.display = 'block';
       }
+    }
+
+    function resetGame() {
+      score = 0;
+      enemies = [];
+      gameOver = false;
+      restartBtn.style.display = 'none';
+      gameLoop();
     }
 
     window.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft' && car.x > 0) car.x -= 20;
       if (e.key === 'ArrowRight' && car.x < canvas.width - car.width) car.x += 20;
-      if (e.key === 'ArrowUp' && car.y > 0) car.y -= 20;
-      if (e.key === 'ArrowDown' && car.y < canvas.height - car.height) car.y += 20;
     });
-  </script>
-</body>
-</html>
+
+    document.getElementById('leftBtn').addEventListener('touchstart', () => {
+      if (car.x > 0) car.x -= 20;
+    });
+    document.getElementById('rightBtn').addEventListener('touchstart', () => {
+      if (car.x < canvas.width - car.width) car.x += 20;
+    });
+
+    restartBtn.addEventListener('click', resetGame);
+  </script></body>
+  </html>
