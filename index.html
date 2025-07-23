@@ -1,9 +1,10 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#000000" />
-  <title>TurboRush X v2.2</title>
+  <title>TurboRush X v2.3</title>
   <style>
     body {
       margin: 0;
@@ -93,6 +94,7 @@
       justify-content: space-between;
       padding: 0 30px;
       box-sizing: border-box;
+      align-items: center;
     }
     .btn {
       width: 60px;
@@ -106,11 +108,20 @@
       color: white;
       user-select: none;
     }
+    #restartBtn {
+      display: none;
+      padding: 10px 20px;
+      background: #ff4500;
+      color: white;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
     #nitroBtn {
       position: absolute;
-      bottom: 100px;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 20px;
+      right: 20px;
       width: 80px;
       height: 40px;
       background: rgba(0, 191, 255, 0.8);
@@ -121,40 +132,27 @@
       line-height: 40px;
       user-select: none;
     }
-    #restartBtn {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 10px 20px;
-      background: #ff4500;
-      color: white;
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      border-radius: 8px;
-    }
   </style>
 </head>
 <body>
   <div id="splash">
     <img src="file_000000005010620a88da41ee996795f2.png" alt="TurboRush Logo">
-    <p>Loading TurboRush X v2.2...</p>
+    <p>Loading TurboRush X v2.3...</p>
     <div id="loading-bar"><div></div></div>
   </div>
   <div id="score">Score: 0</div>
   <canvas id="gameCanvas" width="400" height="600"></canvas>
   <div id="controls">
     <div class="btn" id="leftBtn">◀</div>
+    <button id="restartBtn">Restart</button>
     <div class="btn" id="rightBtn">▶</div>
   </div>
   <div id="nitroBtn">Nitro</div>
-  <button id="restartBtn">Restart</button>  <script>
+  
+  <script>
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const scoreElement = document.getElementById('score');
-    const splash = document.getElementById('splash');
     const restartBtn = document.getElementById('restartBtn');
     const nitroBtn = document.getElementById('nitroBtn');
 
@@ -278,7 +276,7 @@
       if (car.x < canvas.width - car.width) car.x += 20;
     });
     nitroBtn.addEventListener('touchstart', activateNitro);
-
     restartBtn.addEventListener('click', resetGame);
-  </script></body>
+  </script>
+</body>
   </html>
